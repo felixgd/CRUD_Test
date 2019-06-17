@@ -135,11 +135,8 @@ export default {
     })
       .then((result) => {
         this.$router.push({
-        name: 'ShowCustomer',
-        params: {
-          customerID: this.$route.params.customerID
-        }
-      })
+        name: 'CustomerList'
+        })
       })
       .catch(e => {
         if(e.response.status == 400){
@@ -234,10 +231,7 @@ export default {
     })
     .then(response => {
       this.$router.push({
-        name: 'ShowCustomer',
-        params: {
-          customerID: this.$route.params.customerID
-        }
+        name: 'CustomerList'
       })
     })
     .catch(e => {

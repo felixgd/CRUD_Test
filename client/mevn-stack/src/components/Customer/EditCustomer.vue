@@ -4,7 +4,7 @@
     <b-col cols="6" align-self="center" align-h="center">
       <h2>
         Edit customer
-        <router-link :to="{ name: 'Showcustomer', params: { id: customer.barCode } }">(Show customer)</router-link>
+        <router-link :to="{ name: 'CustomerList' }">(Customer List)</router-link>
       </h2>
       <b-form @submit="onSubmit">
         <b-form-group id="fieldsetHorizontal"
