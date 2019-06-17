@@ -93,13 +93,17 @@ function user_sign_up (req, res, next){
 
     finalUser.setPassword(user.password);
 
+    if(!process.env.SENDGRID_API_KEY){
+      finalUser.status = true;   
+    }
+
     finalUser.save(function(err, saved_user){
 
       if(err){
         console.log(err);
         return res.sendStatus(500);
       }
-  
+      
       mailer.confirmation_email(saved_user.email, token, saved_user.username);
   
       return res.send(200);
