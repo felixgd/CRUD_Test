@@ -3,7 +3,7 @@
   <b-col cols="3"></b-col>
     <b-col cols="6" align-self="center" align-h="center">
       <h2>
-        Log In!
+        Forgot Password
       </h2>
       <router-link :to="{ name: 'SignUp'}">Don't have an Account? Sign Up here!</router-link>
       <b-form @submit="onSubmit">
@@ -14,14 +14,6 @@
                   label="Enter Email">
           <b-form-input id="email" :state="state" v-model.trim="user.email"></b-form-input>
         </b-form-group>
-        <b-form-group id="fieldsetHorizontal"
-                  horizontal
-                  :label-cols="4"
-                  breakpoint="md"
-                  label="Enter Password">
-          <b-form-input id="password" :state="state" v-model.trim="user.password" type="password"></b-form-input>
-        </b-form-group>
-        <router-link :to="{ name: 'ForgotPassword'}">Forgot your password? Click here!</router-link><br>
         <b-button type="submit" variant="primary">Submit!</b-button>
       </b-form>
     </b-col>
@@ -43,16 +35,13 @@ export default {
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      axios.post(`http://localhost:3000/api/user/login`, this.user)
+      axios.post(`http://localhost:3000/api/user/resetpass`, this.user)
       .then((response)=>{
-            localStorage.setItem("Auth Token","Token "+response.data.user.token);
-            this.$router.push({
-              name: 'BookList'
-            })
+            alert("You will recieve an email shortly!");
       })
       .catch(e => {
         if(e.response.data){
-          alert("Email or Password is Invalid");
+          alert("Email Invalid");
         }
       })
     }

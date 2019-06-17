@@ -1,7 +1,7 @@
 let Customer = require('../models/customer');
 let User = require('../models/user');
 let passport = require('passport');
-//let mailer = require('../libs/mailer');
+let mailer = require('../libs/mailer');
 
 module.exports={
     createCustomer,
@@ -80,14 +80,14 @@ function createCustomer(req, res, next){
             });
         }
 
-        Customer.findOne({ID:customer.ID}, function(err, foundCustomer){
+        Customer.findOne({$or:[{ID:customer.ID},{email:customer.email}]}, function(err, foundCustomer){
             if(err){
               console.log(err);
               return res.sendStatus(500);
             }
           
             if(foundCustomer){
-              return res.sendStatus(400);
+              return res.sendStatus(409);
             }
             
             newCustomer = new Customer(customer);
@@ -99,7 +99,7 @@ function createCustomer(req, res, next){
                   return res.sendStatus(500);
                 }
             
-                //mailer.confirmation_email(saved_user.email, token, saved_user.username);
+                mailer.new_costumer(savedCustomer.email);
             
                 return res.send(200);
         

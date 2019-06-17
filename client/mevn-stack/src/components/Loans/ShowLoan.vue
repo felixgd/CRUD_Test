@@ -181,7 +181,7 @@ export default {
 
         axios.post('http://localhost:3000/api/bookloan/edit/' + this.$route.params.customerID +"/"+ this.$route.params.bookLoanID, data,{
             headers:{
-            authorization:localStorage.getItem("Auth Token")
+              authorization:localStorage.getItem("Auth Token")
             }
     })
       .then((result) => {
@@ -227,10 +227,10 @@ export default {
               name: 'Login'
         })
       }
-    axios.post(`http://localhost:3000/api/bookloan/complete/` + this.$route.params.customerID+'/'+this.$route.params.bookLoanID,{
+    axios.post(`http://localhost:3000/api/bookloan/complete/` + this.$route.params.customerID+'/'+this.$route.params.bookLoanID,'',{
         headers:{
-            authorization: localStorage.getItem("Auth Token")
-        }
+              authorization:localStorage.getItem("Auth Token")
+            }
     })
     .then(response => {
       this.$router.push({

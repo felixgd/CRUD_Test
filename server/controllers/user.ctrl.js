@@ -2,7 +2,7 @@
 
 let User = require('../models/user');
 let passport = require('passport');
-//let mailer = require('../libs/mailer');
+let mailer = require('../libs/mailer');
 let crypto = require('crypto');
 
 module.exports = {
@@ -100,7 +100,7 @@ function user_sign_up (req, res, next){
         return res.sendStatus(500);
       }
   
-      //mailer.confirmation_email(saved_user.email, token, saved_user.username);
+      mailer.confirmation_email(saved_user.email, token, saved_user.username);
   
       return res.send(200);
 
@@ -156,7 +156,7 @@ function user_reset_password_token (req, res, next){
           console.log(err);
           res.sendStatus(500);
         }
-       
+        console.log(saved_user);
         mailer.reset_password(saved_user.email, token, saved_user.username);
     
         return res.send(200);
@@ -176,9 +176,9 @@ function user_reset_password (req, res, next){
   User.findOne({ resetPasswordToken: req.query.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
  
     if (!user) {
-      return res.redirect('/resetpass');
+      return res.redirect('http://localhost:8080/resetpass');
     }
-    return res.redirect('/resetform/'+req.query.token)
+    return res.redirect('http://localhost:8080/resetform/'+req.query.token)
 
   });
 
@@ -212,7 +212,7 @@ function user_update_reset_password(req, res, next){
 
   User.findOne({ resetPasswordToken: req.body.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
-      return res.status(422).json({
+      return res.status(404).json({
         errors: {
           password: 'Token has expired or it is invalid!',
         },
@@ -231,7 +231,7 @@ function user_update_reset_password(req, res, next){
 
 
     });
-    return res.redirect('/passwordChanged');
+    return res.sendStatus(200);
   });
 
 }
@@ -259,13 +259,15 @@ function user_verif(req, res, next){
           res.sendStatus(500);
         }
 
-        res.redirect('/verified');
+        res.redirect('http://localhost:8080/');
+        return;
 
       });
 
     }else{
       console.log("User not found with confirmation token: "+ token);
       res.sendStatus(404);
+      return;
     }
 
   });

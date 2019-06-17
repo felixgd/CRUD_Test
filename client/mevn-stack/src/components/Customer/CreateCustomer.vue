@@ -78,8 +78,7 @@ export default {
       })
       .then(response => {
         this.$router.push({
-          name: 'Showcustomer',
-          params: { id: customer.ID }
+          name: 'CustomerList'
         })
       })
       .catch(e => {
@@ -98,8 +97,8 @@ export default {
           return;
         }
 
-        if(e.response.status == 400){
-          alert("A Customer With the Same ID was Found");
+        if(e.response.status == 409){
+          alert("A Customer With the Same ID or email was Found");
           return;
         }
       })

@@ -2,6 +2,7 @@
 let User = require('../models/user');
 let Customer = require('../models/customer');
 let Book = require('../models/book');
+let mailer = require('../libs/mailer');
 const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
 module.exports={
     createBookLoan,
@@ -331,7 +332,7 @@ function createBookLoan(req, res, next){
                       console.log(err);
                       return res.sendStatus(500);
                   }
-
+                  mailer.loan_created(foundCustomer.email, bookLoan.shouldReturnAt);
                   res.sendStatus(200);
               })
             }

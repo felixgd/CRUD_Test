@@ -6,6 +6,8 @@ import CreateBook from '@/components/Book/CreateBook'
 import EditBook from '@/components/Book/EditBook'
 import SignUp from '@/components/User/SignUp'
 import Login from '@/components/User/Login'
+import ChangePassword from '@/components/User/ChangePassword'
+import ForgotPassword from '@/components/User/ForgotPassword'
 import CustomerList from '@/components/Customer/CustomerList'
 import CreateCustomer from '@/components/Customer/CreateCustomer'
 import ShowCustomer from '@/components/Customer/ShowCustomer'
@@ -76,6 +78,16 @@ export default new Router({
       path: '/loans/:customerID/:bookLoanID',
       name: 'ShowLoan',
       component: ShowLoan
+    },
+    {
+      path: '/forgot-password',
+      name: 'ForgotPassword',
+      component: ForgotPassword
+    },
+    {
+      path: '/change-password/:token',
+      name: 'ChangePassword',
+      component: ChangePassword
     }
   ]
 })

@@ -56,6 +56,12 @@ export default {
     onSubmit (evt) {
       evt.preventDefault()
       axios.post(`http://localhost:3000/api/user/sign_up`, this.user)
+      .then((response)=>{
+            alert("You will recieve a Verification Email shortlty");
+            this.$router.push({
+              name: 'Login'
+            })
+      })
       .catch(e => {
         if(e.response.status == 400){
           alert("Invalid Authentication Token");

@@ -1,31 +1,28 @@
 'use strict'
 
-var nodemailer = require('nodemailer');
 var ejs = require('ejs');
-var email_token = './../server/templates/confirmation_token.ejs';
-var reset_token = './../server/templates/reset_token.ejs';
-var successful_payment = './../server/templates/successful_payment.ejs';
-var error_payment = './../server/templates/error_payment.ejs';
-var transporter = nodemailer.createTransport({
-    service: config.mail.service,
-    auth: {
-           user: config.mail.user,
-           pass: config.mail.password
-       }
-   });
+var email_token = '../server/templates/email.ejs';
+var reset_token = '../server/templates/email_forgot_password.ejs';
+var loan_created_template = '../server/templates/book_loan_created.ejs';
+var new_costumer_template = '../server/templates/new_costumer.ejs';
+var book_loan_near_date = '../server/templates/book_loan_return_date.ejs';
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 
 module.exports = {
     confirmation_email,
-    payment_error,
-    payment_confirmed,
-    reset_password
+    reset_password,
+    loan_created,
+    near_return_date,
+    new_costumer
 }
 
 function confirmation_email(to_email, token, username){
 
     ejs.renderFile(email_token, {
                                     data:{
-                                            confirmation_link:config.domain+"/api/user/verification/"+token
+                                            confirmation_link:process.env.SERVER_DOMAIN+"/api/user/verification/"+token
                                         },
                                     user:{
                                         username:username
@@ -33,109 +30,171 @@ function confirmation_email(to_email, token, username){
                                     }, (err, html) => {
         if (err) console.log(err); // Handle error
   
-        var mailOptions = {
-            from: config.mail.sender_email, // sender address
-            to: to_email, // list of receivers
-            subject: "CryptoFights LootBox Confirmation Token", // Subject line
-            html: html// plain text body
-        };
-  
-        transporter.sendMail(mailOptions, function (err, info) {
-            if(err)
-              console.log(err)
-            else
-              console.log(info);
-        });
+        const msg = {
+            to: to_email,
+            from: process.env.SENDER_EMAIL,
+            subject: 'Confirm your Email',
+            text: html,
+            html: html,
+          };
+          sgMail
+          .send(msg)
+          .then(() => {
+            //Celebrate
+          })
+          .catch(error => {
+          
+            //Log friendly error
+            console.error(error.toString());
+          
+            //Extract error msg
+            const {message, code, response} = error;
+          
+            //Extract response msg
+            const {headers, body} = response;
+          });
     });
     
 
     
+}
+
+function loan_created(to_email, date){
+
+    ejs.renderFile(loan_created_template, {data:{
+                                        date:date
+                                    }
+                                }, (err, html) => {
+        if (err) console.log(err); // Handle error
+  
+        const msg = {
+            to: to_email,
+            from: process.env.SENDER_EMAIL,
+            subject: 'Loan Created',
+            text: html,
+            html: html,
+          };
+          sgMail
+          .send(msg)
+          .then(() => {
+            //Celebrate
+          })
+          .catch(error => {
+          
+            //Log friendly error
+            console.error(error.toString());
+          
+            //Extract error msg
+            const {message, code, response} = error;
+          
+            //Extract response msg
+            const {headers, body} = response;
+          });
+    }); 
+}
+
+function near_return_date(to_email,date){
+
+    ejs.renderFile(book_loan_near_date, {data:{
+                                        date:date
+                                    }
+                                },(err, html) => {
+        if (err) console.log(err); // Handle error
+  
+        const msg = {
+            to: to_email,
+            from: process.env.SENDER_EMAIL,
+            subject: 'Near Return Date',
+            text: html,
+            html: html,
+          };
+          sgMail
+          .send(msg)
+          .then(() => {
+            //Celebrate
+          })
+          .catch(error => {
+          
+            //Log friendly error
+            console.error(error.toString());
+          
+            //Extract error msg
+            const {message, code, response} = error;
+          
+            //Extract response msg
+            const {headers, body} = response;
+          });
+    }); 
 }
 
 function reset_password(to_email, token, username){
 
     ejs.renderFile(reset_token, {
                                     data:{
-                                            confirmation_link:config.domain+"/api/user/reset/?token="+token
+                                            confirmation_link:process.env.CLIENT_DOMAIN+"/change-password/"+token
                                         },
                                     user:{
                                         username: username
                                     }
                                     }, (err, html) => {
         if (err) console.log(err); // Handle error
-  
-        var mailOptions = {
-            from: config.mail.sender_email, // sender address
-            to: to_email, // list of receivers
-            subject: "CryptoFights LootBox Reset Password Token", // Subject line
-            html: html// plain text body
-        };
-  
-        transporter.sendMail(mailOptions, function (err, info) {
-            if(err)
-              console.log(err)
-            else
-              console.log(info);
-        });
+        const msg = {
+            to: to_email,
+            from: process.env.SENDER_EMAIL,
+            subject: 'Reset Password',
+            text: html,
+            html: html,
+          };
+          sgMail
+          .send(msg)
+          .then(() => {
+            //Celebrate
+          })
+          .catch(error => {
+          
+            //Log friendly error
+            console.error(error.toString());
+          
+            //Extract error msg
+            const {message, code, response} = error;
+          
+            //Extract response msg
+            const {headers, body} = response;
+          });
     });
     
 
     
 }
-function payment_error(to_email, payment_status, gateway, username){
-    ejs.renderFile(error_payment, {
-                                    data:{
-                                            app_link:config.domain,
-                                            error:payment_status,
-                                            gateway:gateway
-                                        },
-                                    user:{
-                                        username:username
-                                    }
-                                    }, (err, html) => {
-        if (err) console.log(err); // Handle error
-  
-        var mailOptions = {
-            from: config.mail.sender_email, // sender address
-            to: to_email, // list of receivers
-            subject: "CryptoFights LootBox Error on Payment", // Subject line
-            html: html// plain text body
-        };
-  
-        transporter.sendMail(mailOptions, function (err, info) {
-            if(err)
-              console.log(err)
-            else
-              console.log(info);
-        });
-    });
-}
 
-function payment_confirmed(to_email, amount, gateway, username){
-    ejs.renderFile(successful_payment, {
-                                    data:{
-                                            app_link:config.domain,
-                                            amount:amount,
-                                            gateway:gateway
-                                        },
-                                    user:{
-                                        username:username
-                                    }
-                                    }, (err, html) => {
+function new_costumer(to_email){
+
+    ejs.renderFile(new_costumer_template, (err, html) => {
         if (err) console.log(err); // Handle error
   
-        var mailOptions = {
-            from: config.mail.sender_email, // sender address
-            to: to_email, // list of receivers
-            subject: "CryptoFights LootBox Payment successful", // Subject line
-            html: html// plain text body
-        };
-  
-        transporter.sendMail(mailOptions, function (err, info) {
-            if(err)
-              console.log(err)
-            else
-              console.log(info);
-        });
+        const msg = {
+            to: to_email,
+            from: process.env.SENDER_EMAIL,
+            subject: 'Reset Password',
+            text: html,
+            html: html,
+          };
+          sgMail
+          .send(msg)
+          .then(() => {
+            //Celebrate
+          })
+          .catch(error => {
+          
+            //Log friendly error
+            console.error(error.toString());
+          
+            //Extract error msg
+            const {message, code, response} = error;
+          
+            //Extract response msg
+            const {headers, body} = response;
+          });
     });
+
 }
