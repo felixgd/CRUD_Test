@@ -12,7 +12,7 @@
                   :label-cols="4"
                   breakpoint="md"
                   label="Enter Bar Code">
-          <b-form-input id="barCode" :state="state" v-model.trim="book.barCode"></b-form-input>
+          <b-form-input id="barCode" :state="state" v-model.trim="book.barCode" disabled></b-form-input>
         </b-form-group>
         <b-form-group id="fieldsetHorizontal"
                   horizontal
@@ -75,7 +75,15 @@ export default {
       this.book = response.data
     })
     .catch(e => {
-      this.errors.push(e)
+      if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This book was not found");
+          return;
+        }
     })
   },
   methods: {
@@ -93,7 +101,25 @@ export default {
         })
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
+
+        if(e.response.status == 422){
+          alert("Fields missing");
+          return;
+        }
+
+        if(e.response.status == 400){
+          alert("This book was not found");
+          return;
+        }
       })
     }
   }

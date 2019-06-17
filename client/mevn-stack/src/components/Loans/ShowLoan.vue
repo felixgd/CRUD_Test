@@ -38,15 +38,6 @@
         >
           Save
         </b-button>
-        <b-button
-          variant="danger"
-          size="md"
-          class="float-right"
-          @click="show=false"
-          style="margin-right:2.5%"
-        >
-          Cancel
-        </b-button>
       </div>
     </b-modal>
   </b-row>
@@ -93,7 +84,20 @@ export default {
       }
     })
     .catch(e => {
-      this.errors.push(e)
+      if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This Loan was not found");
+          return;
+        }
+        
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
     })
   },
   methods: {
@@ -107,7 +111,20 @@ export default {
         this.$router.go();
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This Book was not found");
+          return;
+        }
+        
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
       })
     },
     deleteBookLoan () {
@@ -125,7 +142,20 @@ export default {
       })
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This Loan was not found");
+          return;
+        }
+        
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
       })
     },
     changeReturnDate () {let dateToday = new Date();
@@ -158,7 +188,20 @@ export default {
         this.$router.go();
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This Loan was not found");
+          return;
+        }
+        
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
       })
     },
     verifyDate(){
@@ -198,7 +241,20 @@ export default {
       })
     })
     .catch(e => {
-      this.errors.push(e)
+      if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This Loan was not found");
+          return;
+        }
+        
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
     })
   },
   }

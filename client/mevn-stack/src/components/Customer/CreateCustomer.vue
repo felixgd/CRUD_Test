@@ -83,7 +83,25 @@ export default {
         })
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
+
+        if(e.response.status == 422){
+          alert("Fields missing");
+          return;
+        }
+
+        if(e.response.status == 400){
+          alert("A Customer With the Same ID was Found");
+          return;
+        }
       })
     }
   }

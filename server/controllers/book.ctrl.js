@@ -176,7 +176,7 @@ function editBook(req, res, next){
             }
           
             if(!foundBook){
-              return res.sendStatus(400);
+              return res.sendStatus(404);
             }
 
             foundBook.title = req.body.title;

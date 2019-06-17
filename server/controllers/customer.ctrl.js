@@ -172,7 +172,7 @@ function editCustomer(req, res, next){
             }
           
             if(!foundCustomer){
-              return res.sendStatus(400);
+              return res.sendStatus(404);
             }
             
             foundCustomer.firstName = req.body.firstName;

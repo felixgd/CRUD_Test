@@ -55,7 +55,15 @@ export default {
       this.customers = response.data
     })
     .catch(e => {
-      this.errors.push(e)
+      if(e.response.status == 400){
+        alert("Invalid Authentication Token");
+        return;
+      }
+
+      if(e.response.status == 500){
+        alert("Error with the server");
+        return;
+      }
     })
   },
   methods: {

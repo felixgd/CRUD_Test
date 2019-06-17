@@ -33,7 +33,7 @@
                   :label-cols="4"
                   breakpoint="md"
                   label="Enter ID">
-          <b-form-input id="publisher" :state="state" v-model.trim="customer.ID"></b-form-input>
+          <b-form-input id="publisher" :state="state" v-model.trim="customer.ID"  disabled></b-form-input>
         </b-form-group>
         <b-form-group id="fieldsetHorizontal"
                   horizontal
@@ -93,7 +93,25 @@ export default {
         })
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
+
+        if(e.response.status == 422){
+          alert("Fields missing");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This Costumer was not found");
+          return;
+        }
       })
     }
   }

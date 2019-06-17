@@ -51,15 +51,6 @@
         >
           Create Loan
         </b-button>
-        <b-button
-          variant="danger"
-          size="md"
-          class="float-right"
-          @click="show=false"
-          style="margin-right:2.5%"
-        >
-          Close
-        </b-button>
       </div>
     </b-modal>
     <b-modal id="qtyModal" title="Select Quantity" ref="qtyModal">
@@ -129,7 +120,15 @@ export default {
         this.getBooks();
     })
     .catch(e => {
-      this.errors.push(e)
+      if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This Costumer was not found");
+          return;
+        }
     });
   },
   methods: {
@@ -144,7 +143,20 @@ export default {
         console.log(this.books);
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This Customer was not found");
+          return;
+        }
+        
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
       });
     },
     editcustomer (customerid) {
@@ -171,7 +183,20 @@ export default {
         })
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This Customer was not found");
+          return;
+        }
+        
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
       })
     },
     selectBookQty (bookToLoan) {
@@ -207,7 +232,20 @@ export default {
       }    
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This Customer was not found");
+          return;
+        }
+        
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
       })
     },
     createLoan(){
@@ -253,7 +291,25 @@ export default {
         this.$router.go();
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
+
+        if(e.response.status == 422){
+          alert("Fields missing");
+          return;
+        }
+
+        if(e.response.status == 400){
+          alert("A Loan With the Same ID was Found");
+          return;
+        }
       })
     },
     verifyDate(){

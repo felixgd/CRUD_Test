@@ -16,9 +16,6 @@
           Quantity: {{book.qty}}<br>
         </template>
         <hr class="my-4">
-        <p>
-          Updated Date: {{book.updated_date}}
-        </p>
         <b-btn variant="success" @click.stop="editbook(book.barCode)">Edit</b-btn>
         <b-btn variant="danger" @click.stop="deletebook(book.barCode)">Delete</b-btn>
       </b-jumbotron>
@@ -53,7 +50,20 @@ export default {
       this.book = response.data
     })
     .catch(e => {
-      this.errors.push(e)
+      if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This book was not found");
+          return;
+        }
+        
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
     })
   },
   methods: {
@@ -75,7 +85,20 @@ export default {
         })
       })
       .catch(e => {
-        this.errors.push(e)
+        if(e.response.status == 400){
+          alert("Invalid Authentication Token");
+          return;
+        }
+
+        if(e.response.status == 404){
+          alert("This book was not found");
+          return;
+        }
+        
+        if(e.response.status == 500){
+          alert("Error with the server");
+          return;
+        }
       })
     }
   }

@@ -50,7 +50,9 @@ export default {
             })
       })
       .catch(e => {
-        this.errors.push(e);
+        if(e.response.data){
+          alert("Email or Password is Invalid");
+        }
       })
     }
   }
