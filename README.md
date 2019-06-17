@@ -19,13 +19,13 @@ Remember to fill up the .env file located on `server/` with your data.
 ```
 DB_URI=
 
-SENDER_EMAIL:
+SENDER_EMAIL=
 
-SENDGRID_API_KEY:
+SENDGRID_API_KEY=
 
-DOMAIN_CLIENT:
+DOMAIN_CLIENT=
 
-SERVER_DOMAIN:
+SERVER_DOMAIN=
 ```
 If the SendGrid API Key is not entered, you'll be able to log in but you won't be able to change the password.
 
