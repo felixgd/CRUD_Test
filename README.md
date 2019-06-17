@@ -1,46 +1,47 @@
 # CRUD_Test
-To install:
+## To install:
+```
+cd server
 
-`cd server`
+npm install
 
-`npm install`
+cd ..
 
-`cd ..`
+cd client
 
-`cd client`
+cd mevn-stack
 
-`cd mevn-stack`
-
-`npm install`
-
+npm install
+```
 Remember to fill up the .env file located on `server/` with your data.
 
-.env Format:
+## .env Format:
+```
+DB_URI=
 
-`DB_URI=`
+SENDER_EMAIL:
 
-`SENDER_EMAIL:`
+SENDGRID_API_KEY:
 
-`SENDGRID_API_KEY:`
+DOMAIN_CLIENT:
 
-`DOMAIN_CLIENT:`
-
-`SERVER_DOMAIN:`
-
+SERVER_DOMAIN:
+```
 If the SendGrid API Key is not entered, you'll be able to log in but you won't be able to change the password.
 
 If you enter the SendGrid API, you'll get a verification email and you won't be able to log in until you verify your account.
 
-To run the server:
+## To run the server:
+```
+cd server
 
-`cd server`
+node server.js
+```
+## To run the client:
+```
+cd client
 
-`node server.js`
+cd mevn-stack
 
-To run the client:
-
-`cd client`
-
-`cd mevn-stack`
-
-`npm run dev`
+npm run dev
+```
