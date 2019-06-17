@@ -45,3 +45,13 @@ cd mevn-stack
 
 npm run dev
 ```
+
+# Added features
+1. Send Emails when:
+- The User signs up (for verification).
+- A costumer is created.
+- A loan is created.
+
+2. Cron Job for:
+- Automatically flag a costumer when he does not returns the books.
+- Automatically sends an email the day before of the return date.
