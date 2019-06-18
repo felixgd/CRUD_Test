@@ -50,9 +50,10 @@ export default {
       this.book = response.data
     })
     .catch(e => {
-      if(e.response.status == 400){
-          alert("Invalid Authentication Token");
-          return;
+      if(e.response.status == 401){
+          this.$router.push({
+              name: 'Login'
+        })
         }
 
         if(e.response.status == 404){
@@ -85,9 +86,10 @@ export default {
         })
       })
       .catch(e => {
-        if(e.response.status == 400){
-          alert("Invalid Authentication Token");
-          return;
+        if(e.response.status == 401){
+          this.$router.push({
+              name: 'Login'
+        })
         }
 
         if(e.response.status == 404){
