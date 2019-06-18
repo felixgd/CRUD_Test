@@ -92,6 +92,14 @@ function addBook(req, res, next){
             });
         }
 
+        if(book.qty<0){
+          return res.status(422).json({
+            errors: {
+              qty: 'is invalid',
+            },
+          });
+        }
+
         Book.findOne({barCode:book.barCode}, function(err, foundBook){
             if(err){
               console.log(err);
@@ -167,6 +175,14 @@ function editBook(req, res, next){
                 author: 'is required',
               },
             });
+        }
+
+        if(qty<0){
+          return res.status(422).json({
+            errors: {
+              qty: 'is invalid',
+            },
+          });
         }
 
         Book.findOne({barCode:barCode}, function(err, foundBook){

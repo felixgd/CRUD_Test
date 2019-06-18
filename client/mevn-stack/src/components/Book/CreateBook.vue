@@ -40,7 +40,7 @@
                   :label-cols="4"
                   breakpoint="md"
                   label="Enter Quantity">
-          <b-form-input id="publisher" :state="state" v-model.trim="book.qty" type="number"></b-form-input>
+          <b-form-input id="publisher" :state="state" v-model.trim="book.qty" type="number" min="0"></b-form-input>
         </b-form-group>
         <b-button type="submit" variant="primary">Save</b-button>
       </b-form>
@@ -70,6 +70,10 @@ export default {
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
+      if(this.book.qty<0){
+        alert("Quantity has to be 0 or more!");
+        return;
+      }
       console.log(localStorage.getItem("Auth Token"));
       axios.post(`http://localhost:3000/api/book/add`,this.book,{
           headers:{
