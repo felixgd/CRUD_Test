@@ -82,8 +82,7 @@ export default {
       })
       .then(response => {
         this.$router.push({
-          name: 'ShowBook',
-          params: { id: book.barCode }
+          name: 'BookList'
         })
       })
       .catch(e => {
